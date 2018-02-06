@@ -1,0 +1,28 @@
+{
+    "plugins": [
+        "react"
+    ],
+    "parserOptions": {
+        "ecmaVersion": 6,
+        "sourceType": "module",
+        "ecmaFeatures": {
+            "jsx": true,
+            "experimentalObjectRestSpread": true
+        }
+    },
+    "env": {
+        "es6":     true,
+        "browser": true
+    },
+    "extends": [
+        "eslint:recommended",
+        "plugin:react/recommended"
+    ],
+    "rules": {
+        "semi": ["error", "never"],
+        "no-console": 1,
+        "react/jsx-no-bind": [2, {}],
+        "react/display-name": 0,
+        "prefer-destructuring": ["error", {"object": false, "array": false}]
+    }
+}
