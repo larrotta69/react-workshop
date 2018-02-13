@@ -4,7 +4,7 @@ import ReactDOM from 'react-dom'
 import { injectGlobal } from 'styled-components'
 import styledNormalize from 'styled-normalize'
 
-import Home from './pages/Home/Home'
+import Home from './pages/Home'
 
 (() => injectGlobal`
     ${styledNormalize}
