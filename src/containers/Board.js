@@ -32,7 +32,7 @@ class Board extends React.Component {
                         const isMain = character.name.toLowerCase() === characterMain
                         return <Character key={`char-${character.id}`}
                             src={`https://simpsons-api.herokuapp.com/img/${character.image}`}
-                            posX={`${character.id * widthCharacter}`}
+                            posX={character.id * widthCharacter}
                             zIndex={zIndex}
                             isMain={isMain}
                         />

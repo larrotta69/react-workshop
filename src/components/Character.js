@@ -18,8 +18,8 @@ const StyledCharacter = styled.li`
     transform: ${props => props.isMain ? 'translateX(-40%)' : 'translateX(-30%)'};
     z-index: ${props => props.isMain ? '100' : props.zIndex};
     bottom: ${props => props.isMain ? '70px' : `${250 - (props.zIndex * 5)}px`};
-
     left: ${props => props.isMain ? '50%' : `${props.posX}%`};
+
     img {
         width: ${props => props.isMain ? '300px' : '150px'};
     }
@@ -30,7 +30,7 @@ const StyledCharacter = styled.li`
 Character.propTypes = {
     src: PropTypes.string,
     name: PropTypes.string,
-    posX: PropTypes.string,
+    posX: PropTypes.number,
     zIndex: PropTypes.number,
     isMain: PropTypes.bool
 }
