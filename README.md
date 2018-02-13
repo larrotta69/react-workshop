@@ -253,10 +253,3 @@ export default compose(
     withLayout
 )(Home)
 ```
-
-#### Example
-* Render of the component inside the DOM
-
-```js
-
-```
