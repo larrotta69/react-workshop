@@ -124,8 +124,8 @@ setNewCharacters = (data) => () => {
 ## Third round
 
 * Lifecycle [link](https://rangle.github.io/react-training/react-lifecycles/)
-* High order components
 * Router
+* High order components
 
 #### Let's code
 
