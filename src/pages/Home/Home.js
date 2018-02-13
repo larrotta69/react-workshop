@@ -4,7 +4,7 @@ const Home = () => {
     return (
         <main>
             <header>
-                <h1>The Simpsons</h1>
+                <img src="/logo.png"/>
             </header>
         </main>
     )
