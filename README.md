@@ -18,7 +18,7 @@
 
 #### Let's code
 
-JSX - Composition:
+##### JSX - Composition:
 
 `/pages/Home.js`
 
@@ -30,7 +30,7 @@ const Home = () => {
 }
 ```
 
-Props:
+##### Props:
 
 `/containers/Board.js`
 
@@ -65,14 +65,12 @@ Board.propTypes = {
 
 #### Let's code
 
-
-
-Styled Components:
+##### Styled Components:
 
 `/components/Background.js`
 > Take a look at: `<Background />` and `StyledBackground`
 
-State:
+##### State:
 
 `/containers/Board.js`
 
@@ -94,7 +92,7 @@ class Board extends React.Component {
     }
 }
 ```
-Event Handlers:
+##### Event Handlers:
 
 ```js
 <button onClick={this.setNewCharacters}>set new characters</button>
@@ -106,7 +104,7 @@ setNewCharacters = () => {
         })
     }
 ```
-Passing arguments:
+##### Passing arguments:
 
 ```js
 <button onClick={() => this.setNewCharacters(['Seymour', 'Willie', 'Moe', 'Ralph'])}>set new characters</button>
@@ -129,7 +127,7 @@ setNewCharacters = (data) => () => {
 
 #### Let's code
 
-Lifecycle:
+##### Lifecycle:
 
 `/components/Character.js` [file](https://github.com/larrotta69/react-workshop/blob/first-session/src/components/Character.js)
 
@@ -195,7 +193,7 @@ componentDidMount() {
         
     }
 ```
-Router:
+##### Router:
 
 `/index.js`
 
@@ -232,6 +230,29 @@ const isMain = character.name.toLowerCase() === characterMain
 
 ```
 
+##### HOC - High Order Components:
+
+`/HOC/index.js`
+
+```js
+export const withLayout = Component => props => {
+    return <Layout>
+        <Component {...props} />
+    </Layout>
+}
+```
+
+`/pages/Home.js` 
+
+```js
+import { compose } from 'recompose'
+
+import { withLayout } from '../HOC'
+
+export default compose(
+    withLayout
+)(Home)
+```
 
 #### Example
 * Render of the component inside the DOM
