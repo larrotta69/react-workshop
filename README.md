@@ -2,12 +2,12 @@
 
 ## Run the project
 
-* Clone the repo `https://github.com/larrotta69/hackathon-huge.git`
+* Clone the repo `https://github.com/larrotta69/react-workshop/tree/first-session-start`
 
-* Go to `huge-workshop` branch, run `git checkout huge-workshop`
-* Go to `hackathon-huge` folder
+* Go to `react-workshop` folder
 * Run `npm install`
 * Then `npm start`
+* Go to [localhost](http://localhost:3000/)
 
 ## First round
 
