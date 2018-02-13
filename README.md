@@ -169,7 +169,7 @@ componentDidMount() {
             throw new Error(error)
         })
     }
-    
+
     render(){
         const { characters } = this.state
         const widthCharacter = characters && 93 / characters.length
@@ -190,7 +190,7 @@ componentDidMount() {
                 </ul>
             </div>
         )
-        
+
     }
 ```
 ##### Router:
@@ -215,7 +215,7 @@ ReactDOM.render(
 )
 ```
 
-`/pages/Home.js` 
+`/pages/Home.js`
 
 ```js
 const {params: {name}} = props.match
@@ -242,7 +242,7 @@ export const withLayout = Component => props => {
 }
 ```
 
-`/pages/Home.js` 
+`/pages/Home.js`
 
 ```js
 import { compose } from 'recompose'
@@ -252,11 +252,4 @@ import { withLayout } from '../HOC'
 export default compose(
     withLayout
 )(Home)
-```
-
-#### Example
-* Render of the component inside the DOM
-
-```js
-
 ```
