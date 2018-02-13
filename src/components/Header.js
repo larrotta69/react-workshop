@@ -6,7 +6,7 @@ const Header = (props) => {
     const { title } = props
     return (
         <StyledHeader>
-            <h1>{title}</h1>
+            <img src="/logo.png" alt={title}/>
         </StyledHeader>
     )
 }
@@ -14,9 +14,8 @@ const Header = (props) => {
     Header Styles
 */
 const StyledHeader = styled.header`
-    h1 {
-        margin: 0;
-    }
+    text-align: center;
+    padding-top: 50px;
 `
 /*
     Header propTypes

@@ -5,11 +5,8 @@ import Character from '../components/Character'
 import Background from '../components/Background'
 
 class Board extends React.Component {
-    constructor(props) {
-        super(props)
-        this.state = {
-            characters: null
-        }
+    state = {
+        characters: null
     }
     componentDidMount() {
         axios.get('https://simpsons-api.herokuapp.com/characters')
@@ -23,19 +20,21 @@ class Board extends React.Component {
         })
     }
     render(){
+        const { characterMain } = this.props
         const { characters } = this.state
-        const widthCharacter = characters && 90 / characters.length
-
+        const widthCharacter = characters && 93 / characters.length
         return (
             <div>
                 <Background />
                 <ul>
                     {characters && characters.map(character => {
                         const zIndex = characters && Math.floor(Math.random() * characters.length)
+                        const isMain = character.name.toLowerCase() === characterMain
                         return <Character key={`char-${character.id}`}
                             src={`https://simpsons-api.herokuapp.com/img/${character.image}`}
                             posX={`${character.id * widthCharacter}`}
                             zIndex={zIndex}
+                            isMain={isMain}
                         />
                     })}
                 </ul>
