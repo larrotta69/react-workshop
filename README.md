@@ -203,7 +203,7 @@ import { Route, Switch, BrowserRouter as Router } from 'react-router-dom'
 
 const RouterApp = () => (
     <Switch>
-        <Route exact path='/:name' component={Home} />
+        <Route exact path='/:name?' component={Home} />
     </Switch>
 )
 
