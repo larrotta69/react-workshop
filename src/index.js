@@ -26,7 +26,7 @@ import Home from './pages/Home'
 
 const RouterApp = () => (
     <Switch>
-        <Route exact path='/:name' component={Home} />
+        <Route exact path='/:name?' component={Home} />
     </Switch>
 )
 
