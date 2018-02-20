@@ -5,8 +5,7 @@ import styled from 'styled-components'
 import { colors } from '../theme/variables'
 import Header from './Header'
 
-const Layout = (props) => {
-    const { children } = props
+const Layout = ({ children }) => {
     return (
         <StyledLayout>
             <Header title="The Simpsons"/>
