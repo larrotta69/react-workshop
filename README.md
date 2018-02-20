@@ -179,7 +179,7 @@ componentDidMount() {
                 <ul>
                     {characters && characters.map(character => {
                         const zIndex = characters && Math.floor(Math.random() * characters.length)
-                        const isMain = character.id === 1
+                        const isMain = character.id === 0
                         return <Character key={`char-${character.id}`}
                             src={`https://simpsons-api.herokuapp.com/img/${character.image}`}
                             posX={character.id * widthCharacter}
