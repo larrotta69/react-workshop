@@ -16,6 +16,9 @@ import Home from './pages/Home'
         right: 20%;
         top: 100%;
     }
+    body {
+        overflow: hidden;
+    }
     * {
         font-family: 'Roboto';
         box-sizing: border-box;
