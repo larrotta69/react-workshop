@@ -140,10 +140,9 @@ export default connect(mapStateToProps, mapDispatchToProps)(Board)
 
 ## Third round
 
-* Make the API call
+* Make the API call - Random in a smart way
 * Configure Store to support Sagas
 * Redux Sagas - Listen a Redux Action
-* Make Random in a smart way
 
 #### Let's code
 
@@ -158,7 +157,13 @@ const serverUrl = 'https://simpsons-api.herokuapp.com/characters'
 
 export const getBoardCharactersAPI = () => {
     return axios.get(serverUrl)
-        .then(response => response.data)
+		.then(response => {
+            const { length } = response.data
+            const characterWithRandom = response.data.map((character) => {
+                return {...character, random: Math.floor(Math.random() * length)}
+            })
+            return characterWithRandom
+        })
         .catch(error => {
             throw new Error(error)
         })
@@ -222,19 +227,6 @@ switch (action.type) {
         return state
 }
 
-```
-##### Random Value:
-
-`/containers/Board/BoardSagas.js`
-
-```js
-case BOARD_CHARACTERS_GET_SUCCESS: {
-    const { length } = action.characters
-    const characterWithRandom = action.characters.map((character) => {
-        return {...character, random: Math.floor(Math.random() * length)}
-    })
-    return {...state, characters: characterWithRandom}
-}
 ```
 `/containers/Board/Board.js`
 
