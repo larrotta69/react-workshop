@@ -2,14 +2,13 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import {compose} from 'recompose'
 
-import Board from '../containers/Board'
+import Board from '../containers/Board/Board'
 
 import {withLayout} from '../HOC'
 
-const Home = (props) => {
-    const {params: {name}} = props.match
+const Home = () => {
     return (
-        <Board characterMain={name}/>
+        <Board />
     )
 }
 Home.propTypes = {
