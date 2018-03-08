@@ -202,26 +202,46 @@ export function* boardSagas() {
 }
 
 ```
-##### Random:
+
+##### Success Action:
 
 `/containers/Board/BoardFeatures.js`
 
 ```js
-import { call, put, takeLatest } from 'redux-saga/effects'
-
-import { BOARD_CHARACTERS_GET, boardCharactersGetSuccess } from './BoardFeatures'
-
-import { getBoardCharactersAPI } from '../../api/CharactersAPI'
-
-function* getAllBoardCharacters() {
-   	const characters = yield call(getBoardCharactersAPI)
-	yield put(boardCharactersGetSuccess(characters))
+export const BOARD_CHARACTERS_GET_SUCCESS = 'BOARD_CHARACTERS_GET_SUCCESS'
+...
+export const boardCharactersGetSuccess = payload => {
+    return {type: BOARD_CHARACTERS_GET_SUCCESS, characters: payload}
 }
-export function* boardSagas() {
-    yield takeLatest(BOARD_CHARACTERS_GET, getAllBoardCharacters)
+...
+switch (action.type) {
+    case BOARD_CHARACTERS_GET_SUCCESS: {
+        return {...state, characters: action.characters}
+    }
+    case BOARD_CHARACTERS_GET: default:
+        return state
 }
 
 ```
+##### Random Value:
+
+`/containers/Board/BoardSagas.js`
+
+```js
+case BOARD_CHARACTERS_GET_SUCCESS: {
+    const { length } = action.characters
+    const characterWithRandom = action.characters.map((character) => {
+        return {...character, random: Math.floor(Math.random() * length)}
+    })
+    return {...state, characters: characterWithRandom}
+}
+```
+`/containers/Board/Board.js`
+
+```js
+zIndex={character.random}
+```
+
 #### Let's improve our code
 
 ##### Shorthands:
