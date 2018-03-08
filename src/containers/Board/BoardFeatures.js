@@ -28,11 +28,7 @@ export const reducerBoard = (state = defaultState, action) => {
             return {...state, characterMain: action.characterMain}
         }
         case BOARD_CHARACTERS_GET_SUCCESS: {
-            const { length } = action.characters
-            const characterWithRandom = action.characters.map((character) => {
-                return {...character, random: Math.floor(Math.random() * length)}
-            })
-            return {...state, characters: characterWithRandom}
+            return {...state, characters: action.characters}
         }
         case BOARD_CHARACTERS_GET: default:
             return state
