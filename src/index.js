@@ -1,6 +1,5 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
-import { Route, Switch, BrowserRouter as Router } from 'react-router-dom'
 
 import { injectGlobal } from 'styled-components'
 import styledNormalize from 'styled-normalize'
@@ -17,6 +16,14 @@ import Home from './pages/Home'
         right: 20%;
         top: 100%;
     }
+    button {
+        position: absolute;
+        top: 0;
+        color: white;
+        background: #6f3b13;
+        padding: 10px;
+        border: none;
+    }
     * {
         font-family: 'Roboto';
         box-sizing: border-box;
@@ -24,15 +31,7 @@ import Home from './pages/Home'
 
 `)()
 
-const RouterApp = () => (
-    <Switch>
-        <Route exact path='/:name?' component={Home} />
-    </Switch>
-)
-
 ReactDOM.render(
-    <Router>
-        <RouterApp />
-    </Router>,
+    <Home />,
     document.getElementById('root')
 )

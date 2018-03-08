@@ -2,7 +2,7 @@
 
 ## Run the project
 
-* Clone the repo `https://github.com/larrotta69/react-workshop/tree/first-session-start`
+* Clone the repo `https://github.com/larrotta69/react-workshop/tree/second-session-start`
 
 * Go to `react-workshop` folder
 * Run `npm install`
