@@ -45,30 +45,7 @@ class Board extends React.Component {
     }
 }
 
-const mapStateToProps = state => {
-    return {
-        characters: state.characters,
-        characterMain: state.characterMain
-    }
-}
-
-const mapDispatchToProps = dispatch => {
-    return {
-        boardCharactersGet() {
-            dispatch(boardCharactersGet())
-        },
-        boardMainCharacterUpdate(characterMain) {
-            dispatch(boardMainCharacterUpdate(characterMain))
-        }
-    }
-}
-
 export default connect(
-    mapStateToProps,
-    mapDispatchToProps
+    ({characters, characterMain}) => ({characters, characterMain}),
+    {boardCharactersGet, boardMainCharacterUpdate}
 )(Board)
-
-// export default connect(
-//     ({characters, characterMain}) => ({characters, characterMain}),
-//     {boardCharactersGet, boardMainCharacterUpdate}
-// )(Board)

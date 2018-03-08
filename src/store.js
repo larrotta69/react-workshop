@@ -11,7 +11,6 @@ const sagaMiddleware = createSagaMiddleware()
 //     reducerBoard
 // })
 
-// const configureStore = createStore(reducerBoard, composeWithDevTools())
 const configureStore = createStore(
     reducerBoard,
     composeWithDevTools(

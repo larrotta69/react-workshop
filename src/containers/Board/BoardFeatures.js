@@ -4,13 +4,15 @@
 export const BOARD_CHARACTERS_GET = 'BOARD_CHARACTERS_GET'
 export const BOARD_MAIN_CHARACTER_UPDATE = 'BOARD_MAIN_CHARACTER_UPDATE'
 export const BOARD_CHARACTERS_GET_SUCCESS = 'BOARD_CHARACTERS_GET_SUCCESS'
-export const BOARD_CHARACTER_UPDATE = 'BOARD_UPDATE_CHARACTER'
 
 /*
     Board Actions Creators
 */
 export const boardCharactersGet = () => {
     return {type: BOARD_CHARACTERS_GET}
+}
+export const boardCharactersGetSuccess = payload => {
+    return {type: BOARD_CHARACTERS_GET_SUCCESS, characters: payload}
 }
 
 export const boardMainCharacterUpdate = payload => {
