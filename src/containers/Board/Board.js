@@ -8,6 +8,9 @@ import Background from '../../components/Background'
 import { boardCharactersGet, boardMainCharacterUpdate } from './BoardFeatures'
 
 class Board extends React.Component {
+    state = {
+        inputValue: ''
+    }
     static propTypes = {
         characterMain: PropTypes.string,
         characters: PropTypes.array,
@@ -19,15 +22,23 @@ class Board extends React.Component {
         this.props.boardCharactersGet()
     }
     handleClick = () => {
-        const {boardMainCharacterUpdate} = this.props
-        boardMainCharacterUpdate('bart')
+        const { boardMainCharacterUpdate } = this.props
+        const { inputValue } = this.state
+        boardMainCharacterUpdate(inputValue)
+    }
+    updateInputValue = (evt) => {
+        this.setState({
+          inputValue: evt.target.value.toLowerCase()
+        })
     }
     render(){
         const { characterMain, characters } = this.props
+        const { inputValue } = this.state
         const widthCharacter = characters && 93 / characters.length
         return (
             <div>
                 <Background />
+                <input value={inputValue} onChange={this.updateInputValue}/>
                 <button onClick={this.handleClick}>Set Main</button>
                 <ul>
                     {characters && characters.map(character => {

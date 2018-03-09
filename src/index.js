@@ -20,6 +20,12 @@ import configureStore from './store'
         right: 20%;
         top: 100%;
     }
+    input {
+        position: absolute;
+        top: 0;
+        width: 200px;
+        height: 40px;
+    }
     button {
         position: absolute;
         top: 0;
@@ -27,6 +33,7 @@ import configureStore from './store'
         background: #6f3b13;
         padding: 10px;
         border: none;
+        left: 200px;
     }
     * {
         font-family: 'Roboto';
