@@ -51,7 +51,7 @@ Root.propTypes = {
     store: PropTypes.object.isRequired
 }
 
-const store = configureStore
+const store = configureStore || {}
 
 hydrate(
     <Root store={store} />,
