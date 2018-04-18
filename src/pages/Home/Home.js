@@ -1,18 +1,9 @@
 import React from 'react'
-import styled from 'styled-components'
+import {compose} from 'recompose'
 
-import { colors } from '../../theme/variables'
+import Board from '../../containers/Board/Board'
 
-const StyledBackground = styled.div`
-    background: linear-gradient(to bottom, ${colors.mainBrown} 0%, ${colors.secondYellow} 100%);
-    width: 130vw;
-    height: 70vh;
-    position: absolute;
-    top: 60%;
-    left: 50%;
-    transform: translateX(-50%);
-    border-radius: 20%;
-`
+import {withLayout} from '../../HOC'
 
 class Home extends React.Component {
     constructor(props) {
@@ -34,15 +25,11 @@ class Home extends React.Component {
 
     render() {
         return (
-            <main>
-                <header>
-                    <img src="/static/logo.png"/>
-                    <StyledBackground />
-                    hasState: {this.state.hasState}
-                </header>
-            </main>
+            <Board />
         )
     }
 }
 
-export default Home
+export default compose(
+    withLayout
+)(Home)

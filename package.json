@@ -3,20 +3,27 @@
     "version": "0.1.0",
     "private": true,
     "dependencies": {
+        "axios": "^0.17.1",
         "express": "^4.16.3",
         "prop-types": "^15.6.0",
+        "react-redux": "^5.0.7",
+        "react-router-dom": "^4.2.2",
         "react": "^16.2.0",
+        "recompose": "^0.26.0",
+        "redux": "^3.7.2",
+        "redux-saga": "^0.16.0",
         "react-dom": "^16.2.0",
         "styled-components": "^3.1.6",
         "styled-media-query": "^2.0.1",
         "styled-normalize": "^3.0.1"
     },
     "scripts": {
-        "start": "react-scripts start",
-        "build": "react-scripts build",
-        "prestart:server": "cp ./build/static/js/*.js ./dist/static/main.js",
-        "start:server": "node ./dist/server.js",
-        "build:server": "webpack"
+        "start:client": "react-scripts start",
+        "build:client": "react-scripts build",
+        "copy-assets": "cp ./build/static/js/*.js ./dist/static/main.js && cp ./public/logo.png ./dist/static",
+        "prestart": "npm run build:client && npm run build && npm run copy-assets",
+        "start": "nodemon ./dist/server.js",
+        "build": "webpack"
     },
     "description": "React Workshop",
     "main": "index.js",

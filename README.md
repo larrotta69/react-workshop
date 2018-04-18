@@ -2,7 +2,7 @@
 
 ## Run the project
 
-* Clone the repo `https://github.com/larrotta69/react-workshop/tree/first-session-start`
+* Clone the repo `https://github.com/larrotta69/react-workshop/tree/second-session-start`
 
 * Go to `react-workshop` folder
 * Run `npm install`
@@ -11,191 +11,167 @@
 
 ## First round
 
-* Create React App
-* JSX
-* Composition
-* Props
+* Create Store
+* Configure Provider
+* Create a basic Reducer
+* Our first Action and Action Creator
 
 #### Let's code
 
-##### JSX - Composition:
+##### Store:
 
-`/pages/Home.js`
-
-```js
-const Home = () => {
-    return (
-        <Board characterMain="Homer Simpson"/>
-    )
-}
-```
-
-##### Props:
-
-`/containers/Board.js`
+`/store.js`
 
 ```js
-const Board = (props) => {
-    const { characterMain } = props
-    return (
-        <div>
-            <h1>{characterMain}</h1>
-        </div>
-    )
-}
+import { createStore } from 'redux'
+import { composeWithDevTools } from 'redux-devtools-extension'
 
-Board.propTypes = {
-    characterMain: PropTypes.string
-}
+import { reducerBoard } from './containers/Board/BoardFeatures'
+
+const configureStore = createStore(
+    reducerBoard,
+    composeWithDevTools()
+)
+
+export default configureStore
+
 ```
+##### Provider:
+`/index.js`
 
-> Try a different data type as props: `<Board characterMain={['Homer', 'Simpson']}/>`
-
-#### Adding Background component
 ```js
-<Background/>
-<h1>{characterMain}</h1>
+import {Provider} from 'react-redux'
+import configureStore from './store'
+...
+
+const store = configureStore
+
+const Root = ({store}) => (
+    <Provider store={store}>
+        <Home />
+    </Provider>
+)
+ReactDOM.render(
+    <Root store={store}/>,
+    document.getElementById('root')
+)
 ```
+
+##### Reducer:
+`/containers/Board/BoardFeatures.js`
+
+```js
+export const reducerBoard = (state, action) => {
+    switch (action.type) {
+        case BOARD_CHARACTERS_GET: default:
+            return state
+    }
+}
+
+```
+
+##### Action & Action Creator:
+`/containers/Board/BoardFeatures.js`
+
+```js
+export const BOARD_CHARACTERS_GET = 'BOARD_CHARACTERS_GET'
+
+export const boardCharactersGet = () => {
+    return {type: BOARD_CHARACTERS_GET}
+}
+
+```
+
 ## Second round
 
-* Styled Components
-* Ways of writing [Components](https://medium.com/@the.benhawy/3-ways-to-create-react-components-8b3620e4ea0)
-* State
-* Event Handlers
+* Create a default State to Reducer
+* Connect Board to Redux
+* Dispatch Action from Board props
 
 #### Let's code
 
-##### Styled Components:
+##### Default State:
 
-`/components/Background.js`
-> Take a look at: `<Background />` and `StyledBackground`
-
-##### State:
-
-`/containers/Board.js`
+`/containers/Board/BoardFeatures.js`
 
 ```js
-class Board extends React.Component {
-    state = {
-        characters: ['Marge', 'Bart', 'Lisa']
-    }
-    render(){
-        const { characterMain } = this.props
-        const { characters } = this.state
-        return (
-            <div>
-                <Background />
-                <h1>{characterMain}</h1>
-                {characters.map(character => <div key={`char-${character}`}>{character}</div>)}
-            </div>
-        )
+export const reducerBoard = (state = defaultState, action) => {
+    switch (action.type) {
+        case BOARD_CHARACTERS_GET: default:
+            return state
     }
 }
-```
-##### Event Handlers:
 
-```js
-<button onClick={this.setNewCharacters}>set new characters</button>
-```
-```js
-setNewCharacters = () => {
-        this.setState({
-            characters: ['Seymour', 'Willie', 'Moe', 'Ralph']
-        })
-    }
-```
-##### Passing arguments:
-
-```js
-<button onClick={() => this.setNewCharacters(['Seymour', 'Willie', 'Moe', 'Ralph'])}>set new characters</button>
-```
-> Tip: currying
-
-```js
-setNewCharacters = (data) => () => {
-        this.setState({
-            characters: data
-        })
-    }
-```
-
-## Third round
-
-* Lifecycle [link](https://rangle.github.io/react-training/react-lifecycles/)
-* Router
-* High order components
-
-#### Let's code
-
-##### Lifecycle:
-
-`/components/Character.js` [file](https://github.com/larrotta69/react-workshop/blob/first-session/src/components/Character.js)
-
-```js
-const Character = (props) => {
-    const { src, name, posX, zIndex, isMain } = props
-    return (
-        <StyledCharacter posX={posX} zIndex={zIndex} isMain={isMain}>
-            <img src={src} alt={name}/>
-        </StyledCharacter>
-    )
+const defaultState = {
+    characterMain: '',
+    characters: []
 }
-/*
-    Character Styles
-*/
-const StyledCharacter = styled.li`
-    position: absolute;
-    transform: ${props => props.isMain ? 'translateX(-40%)' : 'translateX(-30%)'};
-    z-index: ${props => props.isMain ? '100' : props.zIndex};
-    bottom: ${props => props.isMain ? '70px' : `${250 - (props.zIndex * 5)}px`};
-    left: ${props => props.isMain ? '50%' : `${props.posX}%`};
-    img {
-        width: ${props => props.isMain ? '300px' : '150px'};
-    }
-`
 ```
+> Let's check Redux DevTools
 
-`/containers/Board.js`
+##### Board to Redux:
+
+`/containers/Board/Board.js`
 
 ```js
 componentDidMount() {
-        axios.get('https://simpsons-api.herokuapp.com/characters')
-        .then(response => {
-            this.setState({
-                characters: response.data
+    this.props.boardCharactersGet()
+}
+...
+const mapStateToProps = state => {
+    return {
+        characters: state.characters,
+        characterMain: state.characterMain
+    }
+}
+
+
+const mapDispatchToProps = dispatch => {
+    return {
+        boardCharactersGet() {
+            dispatch(boardCharactersGet())
+        }
+    }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Board)
+```
+
+
+## Third round
+
+* Make the API call - Random in a smart way
+* Configure Store to support Sagas
+* Redux Sagas - Listen a Redux Action
+
+#### Let's code
+
+##### Make API call:
+
+`/api/CharactersAPI.js`
+
+```js
+import axios from 'axios'
+
+const serverUrl = 'https://simpsons-api.herokuapp.com/characters'
+
+export const getBoardCharactersAPI = () => {
+    return axios.get(serverUrl)
+		.then(response => {
+            const { length } = response.data
+            const characterWithRandom = response.data.map((character) => {
+                return {...character, random: Math.floor(Math.random() * length)}
             })
+            return characterWithRandom
         })
         .catch(error => {
             throw new Error(error)
         })
-    }
-
-    render(){
-        const { characters } = this.state
-        const widthCharacter = characters && 93 / characters.length
-        return (
-            <div>
-                <Background />
-                <ul>
-                    {characters && characters.map(character => {
-                        const zIndex = characters && Math.floor(Math.random() * characters.length)
-                        const isMain = character.id === 1
-                        return <Character key={`char-${character.id}`}
-                            src={`https://simpsons-api.herokuapp.com/img/${character.image}`}
-                            posX={character.id * widthCharacter}
-                            zIndex={zIndex}
-                            isMain={isMain}
-                        />
-                    })}
-                </ul>
-            </div>
-        )
-
-    }
+}
 ```
-##### Router:
+##### Support Sagas (Middleware):
 
-`/index.js`
+`/store.js`
 
 ```js
 import { Route, Switch, BrowserRouter as Router } from 'react-router-dom'
@@ -213,43 +189,65 @@ ReactDOM.render(
     </Router>,
     document.getElementById('root')
 )
+sagaMiddleware.run(boardSagas)
 ```
 
-`/pages/Home.js`
+##### Redux Sagas:
+
+`/containers/Board/BoardSagas.js`
 
 ```js
-const {params: {name}} = props.match
-<Board characterMain={name}/>
+import { call, put, takeLatest } from 'redux-saga/effects'
 
-```
-`/containers/Board.js`
+import { BOARD_CHARACTERS_GET, boardCharactersGetSuccess } from './BoardFeatures'
 
-```js
-const { characterMain } = this.props
-const isMain = character.name.toLowerCase() === characterMain
+import { getBoardCharactersAPI } from '../../api/CharactersAPI'
 
-```
-
-##### HOC - High Order Components:
-
-`/HOC/index.js`
-
-```js
-export const withLayout = Component => props => {
-    return <Layout>
-        <Component {...props} />
-    </Layout>
+function* getAllBoardCharacters() {
+   	const characters = yield call(getBoardCharactersAPI)
+	yield put(boardCharactersGetSuccess(characters))
 }
+export function* boardSagas() {
+    yield takeLatest(BOARD_CHARACTERS_GET, getAllBoardCharacters)
+}
+
 ```
 
-`/pages/Home.js`
+##### Success Action:
+
+`/containers/Board/BoardFeatures.js`
 
 ```js
-import { compose } from 'recompose'
+export const BOARD_CHARACTERS_GET_SUCCESS = 'BOARD_CHARACTERS_GET_SUCCESS'
+...
+export const boardCharactersGetSuccess = payload => {
+    return {type: BOARD_CHARACTERS_GET_SUCCESS, characters: payload}
+}
+...
+switch (action.type) {
+    case BOARD_CHARACTERS_GET_SUCCESS: {
+        return {...state, characters: action.characters}
+    }
+    case BOARD_CHARACTERS_GET: default:
+        return state
+}
 
-import { withLayout } from '../HOC'
+```
+`/containers/Board/Board.js`
 
-export default compose(
-    withLayout
-)(Home)
+```js
+zIndex={character.random}
+```
+
+#### Let's improve our code
+
+##### Shorthands:
+
+`/containers/Board/Board.js`
+
+```js
+export default connect(
+    ({characters}) => ({characters}),
+    {boardCharactersGet}
+)(Board)
 ```

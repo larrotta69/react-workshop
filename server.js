@@ -25,3 +25,4 @@ server.get('/', (req, res) => {
 })
 
 server.listen(port)
+console.log(`server running at ${port}`)
