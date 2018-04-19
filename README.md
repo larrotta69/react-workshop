@@ -23,13 +23,14 @@
 
 ```js
 "scripts": {
-    "start:client": "react-scripts start",
-    "build:client": "react-scripts build",
+	...
     "copy-assets": "mkdir -p ./dist/static && cp ./build/static/js/*.js ./dist/static/main.js && cp ./public/logo.png ./dist/static && cp ./public/index.html ./dist/static",
-    "start": "nodemon server.js",
+    "prestart": "npm run build:client && npm run copy-assets",
+    "start": "nodemon server.js"
 },
 
 ```
+> Run npm start
 
 
 ##### Express server:
