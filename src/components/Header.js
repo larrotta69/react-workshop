@@ -5,7 +5,7 @@ import styled from 'styled-components'
 const Header = ({ title }) => {
     return (
         <StyledHeader>
-            <img src="/static/logo.png" alt={title}/>
+            <img src="/logo.png" alt={title}/>
         </StyledHeader>
     )
 }

@@ -1,15 +1,34 @@
 import React from 'react'
 import PropTypes from 'prop-types'
+import axios from 'axios'
 
 import Character from '../../components/Character'
 import Background from '../../components/Background'
 
+const serverUrl = 'https://simpsons-api.herokuapp.com/characters'
+
 class Board extends React.Component {
+    state = {
+        characters: null
+    }
     componentDidMount() {
-        console.log('componentDidMount')
+        axios.get(serverUrl)
+        .then(response => {
+            const { length } = response.data
+            const characterWithRandom = response.data.map((character) => {
+                return {...character, random: Math.floor(Math.random() * length)}
+            })
+            this.setState({
+                characters: characterWithRandom
+            })
+        })
+        .catch(error => {
+            throw new Error(error)
+        })
     }
     render(){
-        const { characterMain, characters } = this.props
+        const { characterMain } = this.props
+        const { characters } = this.state
         const widthCharacter = characters && 93 / characters.length
         return (
             <div>
