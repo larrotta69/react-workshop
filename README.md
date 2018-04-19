@@ -23,7 +23,8 @@
 
 ```js
 "scripts": {
-	...
+	"start:client": "react-scripts start",
+    "build:client": "react-scripts build",
     "copy-assets": "mkdir -p ./dist/static && cp ./build/static/js/*.js ./dist/static/main.js && cp ./public/logo.png ./dist/static && cp ./public/index.html ./dist/static",
     "prestart": "npm run build:client && npm run copy-assets",
     "start": "nodemon server.js"
@@ -100,7 +101,7 @@ server.use('/static', express.static('./dist/static'))
 
 server.get('/', (req, res) => {
     const title = 'Server side Rendering'
-    const body = `Rendering HMTL`
+	const body = `HMTL from Server side Rendering`
     res.send(Html({
         body,
         title
@@ -111,7 +112,6 @@ server.listen(server.get('port'), () => {
     console.log('Node server is running on port', server.get('port'))
 })
 
-
 ```
 
 ##### Compile server:
@@ -119,11 +119,10 @@ server.listen(server.get('port'), () => {
 `/package.json`
 
 ```js
-"prestart": "npm run build:client && npm run copy-assets",
 "start": "npm run build && node ./dist/server.js",
 "build": "webpack"
-
 ```
+
 ##### HTML template:
 
 `/src/pages/HTML.js`
@@ -153,14 +152,15 @@ const Html = ({ body, title }) => `
             <noscript>You need to enable JavaScript to run this app.</noscript>
             <div id="root">${body}</div>
         </body>
-
-        <script src="/static/main.js"></script>
     </html>
 `
 export default Html
-
-
 ```
+> Change "/static/logo.png"
+
+> Run npm start
+
+> Test by adding < script src="/static/main.js"></script> to our HTML
 
 
 ## Second round
@@ -174,6 +174,13 @@ export default Html
 #### Let's code
 
 ##### Render from renderToString:
+`/src/pages/Home/Home.js`
+
+```js
+return (
+    <p>Rendering HomePage From Server</p>
+)
+```
 
 `/server.js`
 
@@ -223,8 +230,9 @@ hydrate(
     <Home />,
     document.getElementById('root')
 )
-
 ```
+> Remove globalStyles from here
+
 ##### Server styled-components:
 
 `/server.js`
@@ -251,6 +259,8 @@ const Html = ({ body, styles, title }) => `
 ${styles}
 
 ```
+> Inspect to look at the styles
+
 ##### Server API request:
 
 `/server.js`
@@ -329,6 +339,7 @@ componentDidMount() {
 ...
 const { characterMain, characters } = this.props
 ```
+> Remove unused dependencies and variables
 
 `/src/pages/HTML.js`
 
