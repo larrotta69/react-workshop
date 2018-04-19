@@ -15,12 +15,8 @@
         "styled-normalize": "^3.0.1"
     },
     "scripts": {
-        "start:client": "react-scripts start",
-        "build:client": "react-scripts build",
-        "copy-assets": "mkdir -p ./dist/static && cp ./build/static/js/*.js ./dist/static/main.js && cp ./public/logo.png ./dist/static && cp ./public/index.html ./dist/static",
-        "prestart": "npm run build:client && npm run copy-assets",
-        "start": "npm run build && node ./dist/server.js",
-        "build": "webpack"
+        "start": "react-scripts start",
+        "build": "react-scripts build"
     },
     "description": "React Workshop",
     "main": "index.js",
