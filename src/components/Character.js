@@ -6,7 +6,7 @@ const Character = (props) => {
     const { src, name, zIndex } = props
     return (
         <StyledCharacter
-            style={{left: `${props.posX}%;`, bottom: `${250 - (props.zIndex * 5)}px;` }}
+            style={{left: `${props.posX}%`, bottom: `${250 - (props.zIndex * 5)}px`, zIndex: zIndex }}
             zIndex={zIndex}>
             <img src={src} alt={name}/>
         </StyledCharacter>
