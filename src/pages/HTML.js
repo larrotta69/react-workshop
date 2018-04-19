@@ -12,5 +12,4 @@ const Html = ({ body, styles, title }) => `
         <script src="/static/main.js"></script>
     </html>
 `
-
 export default Html

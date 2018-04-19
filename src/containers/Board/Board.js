@@ -10,12 +10,8 @@ import Background from '../../components/Background'
 const serverUrl = 'https://simpsons-api.herokuapp.com/characters'
 
 class Board extends React.Component {
-    constructor(props) {
-        super(props)
-        this.state = {
-            inputValue: '',
-            characters: null
-        }
+    state = {
+        characters: null
     }
 
     componentDidMount() {
@@ -34,12 +30,6 @@ class Board extends React.Component {
                 throw new Error(error)
             })
     }
-    handleClick = () => {
-        // const { boardMainCharacterUpdate } = this.props
-        // const { inputValue } = this.state
-        // boardMainCharacterUpdate(inputValue)
-        console.log('click')
-    }
     updateInputValue = (evt) => {
         this.setState({
           inputValue: evt.target.value.toLowerCase()
@@ -47,13 +37,11 @@ class Board extends React.Component {
     }
     render(){
         const { characterMain } = this.props
-        const { inputValue, characters } = this.state
+        const { characters } = this.state
         const widthCharacter = characters && 93 / characters.length
         return (
             <div>
                 <Background />
-                <input value={inputValue} onChange={this.updateInputValue}/>
-                <button onClick={this.handleClick}>Set Main</button>
                 <ul>
                     {characters && characters.map(character => {
                         const isMain = character.name.toLowerCase() === characterMain
