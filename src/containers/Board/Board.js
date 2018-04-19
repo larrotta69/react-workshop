@@ -1,43 +1,15 @@
 import React from 'react'
-// import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
-import axios from 'axios'
 
 import Character from '../../components/Character'
 import Background from '../../components/Background'
 
-// import { boardCharactersGet, boardMainCharacterUpdate } from './BoardFeatures'
-const serverUrl = 'https://simpsons-api.herokuapp.com/characters'
-
 class Board extends React.Component {
-    state = {
-        characters: null
-    }
-
     componentDidMount() {
-        // this.props.boardCharactersGet()
-        axios.get(serverUrl)
-            .then(response => {
-                const { length } = response.data
-                const characterWithRandom = response.data.map((character) => {
-                    return {...character, random: Math.floor(Math.random() * length)}
-                })
-                this.setState({
-                    characters: characterWithRandom
-                })
-            })
-            .catch(error => {
-                throw new Error(error)
-            })
-    }
-    updateInputValue = (evt) => {
-        this.setState({
-          inputValue: evt.target.value.toLowerCase()
-        })
+        console.log('componentDidMount')
     }
     render(){
-        const { characterMain } = this.props
-        const { characters } = this.state
+        const { characterMain, characters } = this.props
         const widthCharacter = characters && 93 / characters.length
         return (
             <div>

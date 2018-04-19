@@ -1,16 +1,18 @@
 import React from 'react'
-import {compose} from 'recompose'
+import PropTypes from 'prop-types'
+import { compose } from 'recompose'
 
 import Board from '../../containers/Board/Board'
+import { withLayout } from '../../HOC'
 
-import {withLayout} from '../../HOC'
+const Home = props => {
+    return (
+        <Board characters={props.characters} />
+    )
+}
 
-class Home extends React.Component {
-    render() {
-        return (
-            <Board />
-        )
-    }
+Home.propTypes = {
+    characters: PropTypes.array
 }
 
 export default compose(

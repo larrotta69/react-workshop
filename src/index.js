@@ -1,13 +1,9 @@
 import React from 'react'
 import { hydrate } from 'react-dom'
-import PropTypes from 'prop-types'
 import { injectGlobal } from 'styled-components'
 import styledNormalize from 'styled-normalize'
 
-import {Provider} from 'react-redux'
-
 import Home from './pages/Home/Home'
-import configureStore from './store'
 
 (() => injectGlobal`
     ${styledNormalize}
@@ -41,19 +37,7 @@ import configureStore from './store'
 
 `)()
 
-const Root = ({store}) => (
-    <Provider store={store}>
-        <Home />
-    </Provider>
-)
-
-Root.propTypes = {
-    store: PropTypes.object.isRequired
-}
-
-const store = configureStore || {}
-
 hydrate(
-    <Root store={store} />,
+    <Home {...window.__APP_INITIAL_STATE__} />,
     document.getElementById('root')
 )
