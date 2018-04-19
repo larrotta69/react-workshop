@@ -3,6 +3,20 @@ const Html = ({ body, styles, title, initialState }) => `
     <html>
         <head>
             <title>${title}</title>
+            <style>
+                ul, ol {
+                    list-style: none;
+                    padding: 0;
+                    position: absolute;
+                    left: 20%;
+                    right: 20%;
+                    top: 100%;
+                }
+                * {
+                    font-family: 'Roboto';
+                    box-sizing: border-box;
+                }
+            </style>
             ${styles}
             <script>window.__APP_INITIAL_STATE__ = ${initialState}</script>
         </head>
