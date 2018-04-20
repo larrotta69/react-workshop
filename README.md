@@ -331,3 +331,8 @@ What happen on the console ?
     })
   ...
   ```
+
+# Last but not least
+
+* https://gist.github.com/fokusferit/e4558d384e4e9cab95d04e5f35d4f913
+* https://github.com/jsdom/jsdom
