@@ -3,26 +3,26 @@ import { hydrate } from 'react-dom'
 import { injectGlobal } from 'styled-components'
 import styledNormalize from 'styled-normalize'
 
-import Home from './pages/Home/Home'
+// import Home from './pages/Home/Home'
+
+// import Counter from './components/Counter'
+import CounterList from './components/CounterList'
 
 (() => injectGlobal`
     ${styledNormalize}
     ul, ol {
         list-style: none;
         padding: 0;
-        position: absolute;
         left: 20%;
         right: 20%;
         top: 100%;
     }
     input {
-        position: absolute;
         top: 0;
         width: 200px;
         height: 40px;
     }
     button {
-        position: absolute;
         top: 0;
         color: white;
         background: #6f3b13;
@@ -38,6 +38,7 @@ import Home from './pages/Home/Home'
 `)()
 
 hydrate(
-    <Home {...window.__APP_INITIAL_STATE__} />,
+    // <Home {...window.__APP_INITIAL_STATE__} />,
+    <CounterList />,
     document.getElementById('root')
 )
