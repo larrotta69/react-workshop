@@ -24,10 +24,10 @@
 ```js
 "scripts": {
 	"start:client": "react-scripts start",
-    "build:client": "react-scripts build",
-    "copy-assets": "mkdir -p ./dist/static && cp ./build/static/js/*.js ./dist/static/main.js && cp ./public/logo.png ./dist/static && cp ./public/index.html ./dist/static",
-    "prestart": "npm run build:client && npm run copy-assets",
-    "start": "nodemon server.js"
+	"build:client": "react-scripts build",
+	"copy-assets": "mkdir -p ./dist/static && cp ./build/static/js/*.js ./dist/static/main.js && cp ./public/logo.png ./dist/static && cp ./public/index.html ./dist/static",
+	"prestart": "npm run build:client && npm run copy-assets",
+	"start": "nodemon server.js"
 },
 
 ```
@@ -330,7 +330,7 @@ const Home = props => {
 }
 ```
 
-`/src/containers/Board/Board`
+`/src/containers/Board/Board.js`
 
 ```js
 componentDidMount() {
