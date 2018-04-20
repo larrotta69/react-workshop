@@ -3,358 +3,336 @@
 ## Run the project
 
 * Clone the repo `https://github.com/larrotta69/react-workshop/tree/third-session-start`
+
 * Go to `react-workshop` folder
 * Run `npm install`
 * Then `npm start`
 * Go to [localhost](http://localhost:3000/)
 
-## First round
+## Summary
 
-* Add client scripts to build production bundle
-* Create Express, then serve a simple html `dist/index.html`
-* Compile server from Webpack
-* Create HTML wrapper as a template
+* Install enzyme and jest with dependencies
+* Configure the project to handle the tests
+* Create our first test
+* Test react component (Shallow)
+* Test react component (Snapshot)
+* Test react component (Mount)
 
-#### Let's code
+# Install enzyme and jest with dependencies
 
-##### Scripts to build:
-
-`/package.json`
-
-```js
-"scripts": {
-	"start:client": "react-scripts start",
-    "build:client": "react-scripts build",
-    "copy-assets": "mkdir -p ./dist/static && cp ./build/static/js/*.js ./dist/static/main.js && cp ./public/logo.png ./dist/static && cp ./public/index.html ./dist/static",
-    "prestart": "npm run build:client && npm run copy-assets",
-    "start": "nodemon server.js"
-},
-
-```
-> Run npm start
-
-
-##### Express server:
-
-`/server.js`
+run this commands on the terminal
 
 ```js
-var express = require('express')
-var app = express()
-const path = require('path')
-
-app.set('port', (process.env.PORT || 3000))
-app.use(express.static(path.resolve(__dirname, './dist')))
-
-app.get('*', (req, res) => {
-    res.sendFile(path.resolve(__dirname, './dist/static', 'index.html'))
-})
-
-app.listen(app.get('port'), function() {
-    console.log('Node app is running on port', app.get('port'))
-})
-
+npm install --save-dev jest
+npm install --save-dev enzime
+npm install --save-dev enzyme-adapter-react-16
+npm install --save-dev babel-jest
 ```
 
-##### Compile server from webpack:
+# Configure the project to handle the tests
 
-`/webpack.config.js`
+1. Modify the `.babelrc` file
 
-```js
-const webpack = require('webpack')
-const nodeExternals = require('webpack-node-externals')
-const path = require('path')
-
-module.exports = {
-    entry: './server.js',
-    output: {
-        path: path.resolve(__dirname, 'dist'),
-        filename: 'server.js',
-        publicPath: '/'
-    },
-    target: 'node',
-    externals: nodeExternals(),
-    plugins: [
-        new webpack.DefinePlugin({
-            'process.env': {
-                NODE_ENV: 'production',
-                PORT: process.env.PORT || 3000
-            }
-        })
-    ]
-}
-
-```
-
-##### Serving HTML as a template:
-
-`/server.js`
-
-```js
-import express from 'express'
-
-import Html from './src/pages/HTML'
-
-const server = express()
-server.set('port', (process.env.PORT || 3000)) // eslint-disable-line
-server.use('/static', express.static('./dist/static'))
-
-server.get('/', (req, res) => {
-    const title = 'Server side Rendering'
-	const body = `HMTL from Server side Rendering`
-    res.send(Html({
-        body,
-        title
-    }))
-})
-
-server.listen(server.get('port'), () => {
-    console.log('Node server is running on port', server.get('port'))
-})
-
-```
-
-##### Compile server:
-
-`/package.json`
-
-```js
-"start": "npm run build && node ./dist/server.js",
-"build": "webpack"
-```
-
-##### HTML template:
-
-`/src/pages/HTML.js`
-
-```jsx
-const Html = ({ body, title }) => `
-    <!DOCTYPE html>
-    <html>
-        <head>
-            <title>${title}</title>
-            <style>
-                ul, ol {
-                    list-style: none;
-                    padding: 0;
-                    position: absolute;
-                    left: 20%;
-                    right: 20%;
-                    top: 100%;
-                }
-                * {
-                    font-family: 'Roboto';
-                    box-sizing: border-box;
-                }
-            </style>
-        </head>
-        <body style="margin:0">
-            <noscript>You need to enable JavaScript to run this app.</noscript>
-            <div id="root">${body}</div>
-        </body>
-    </html>
-`
-export default Html
-```
-> Change "/static/logo.png"
-
-> Run npm start
-
-> Test by adding < script src="/static/main.js"></script> to our HTML
-
-
-## Second round
-
-* Render a simple string from `<Home />` with `renderToString`
-* Change `render` method to `hydrate`
-* Add styles from our `styled-components`
-* Change API request from client to server
-
-
-#### Let's code
-
-##### Render from renderToString:
-`/src/pages/Home/Home.js`
-
-```js
-return (
-    <p>Rendering HomePage From Server</p>
-)
-```
-
-`/server.js`
-
-```js
-import React from 'react'
-
-import { renderToString } from 'react-dom/server'
-
-import Home from './src/pages/Home/Home'
-
-...
-const body = renderToString(<Home />)
-
-```
-> Bummmmmmm! ERROR!!! we need webpack
-
-
-##### Webpack to support react:
-
-`/webpack.config.js`
-
-```js
-...
-module: {
-    loaders: [
-        {
-            test: /\.js$/,
-            loader: 'babel-loader',
-            query: {
-                presets: ['react', 'es2015', 'stage-2'],
-                plugins: ['transform-class-properties']
-            }
+  ```js
+  {
+      "presets": [["env"], "react"],
+      "env": {
+        "test": {
+          "presets": [["env"], "react"],
+          "plugins": ["transform-class-properties", "transform-object-rest-spread"]
         }
-    ]
-}
+      }
+  }
+  ```
 
-```
+2. Create the jest setup file `setupJest.js` and add
+  ```js
+  import { configure } from 'enzyme';
+  import Adapter from 'enzyme-adapter-react-16';
 
-##### Hydrate method:
+  configure({ adapter: new Adapter() });
+  ```
 
-`/src/index.js`
+3. Create the jest configuration file `jest.config.js` on the root
+  ```js
+  module.exports = {
+    setupFiles : ['<rootDir>/setupJest.js']
+  }
+  ```
+4. `package.json` https://facebook.github.io/jest/docs/en/cli.html#verbose
+  ```js
+  "scripts": {
+      ...
+      "test": "jest --verbose",
+  }
+  ```
+5. run on the cmd `npm run test`
+  ```js
+  No tests found
+  ```
 
-```js
-import { hydrate } from 'react-dom'
-...
-hydrate(
-    <Home />,
-    document.getElementById('root')
-)
-```
-> Remove globalStyles from here
+# Create our first test
 
-##### Server styled-components:
+1. Create a `test` folder inside the `src`
+2. Inside the `src/test` folder create `Test.test.js` file https://facebook.github.io/jest/docs/en/expect.html
+https://facebook.github.io/jest/docs/en/api.html
+  ```js
+  const sum = (a,b) => {
+    return a+b
+  }
 
-`/server.js`
+  describe('Initial test', () => {
+    it('Sum two different numbers, (4 + 4 = 8)', () => {
 
-```js
-import { ServerStyleSheet } from 'styled-components'
-...
-const sheet = new ServerStyleSheet()
-const body = renderToString(sheet.collectStyles(<Home />))
-const styles = sheet.getStyleTags()
-res.send(Html({
-    body,
-    styles,
-    title
-}))
+      expect(sum(4,4)).toEqual(8)
+    })
+  });
 
-```
+  ```
+3. Run the command `npm run test`
+  ```js
+  PASS  src/test/Test.test.js
+    Initial test
+     ✓ Sum two different numbers, (4 + 4 = 8)
+  ```
 
-`/src/pages/HTML.js`
+# Test a react component
 
-```js
-const Html = ({ body, styles, title }) => `
-...
-${styles}
+1. Create `Counter.js` inside the `src/components` folder
+  ```js
+    import React, { Component } from 'react'
 
-```
-> Inspect to look at the styles
+    export class Counter extends Component {
 
-##### Server API request:
+        state = {
+            count: 0,
+        };
 
-`/server.js`
+        increment = () => {
+            this.setState({
+                count: this.state.count + 1
+            });
+        };
 
-```js
-import express from 'express'
-import React from 'react'
-import axios from 'axios'
-
-import { renderToString } from 'react-dom/server'
-import { ServerStyleSheet } from 'styled-components'
-
-import Home from './src/pages/Home/Home'
-import Html from './src/pages/HTML'
-
-const serverUrl = 'https://simpsons-api.herokuapp.com/characters'
-
-const App = React.createFactory(class extends React.Component {
-    render () {
-        return <Home {...this.props} />
+        render() {
+        return (
+            <div>
+            <p>Current count: {this.state.count}</p>
+            <button onClick={this.increment}>Increment count</button>
+            </div>
+        )
+        }
     }
-})
 
-const server = express()
-server.set('port', (process.env.PORT || 3000)) // eslint-disable-line
-server.use('/static', express.static('./dist/static'))
+    export default Counter
+  ```
+2. Verify the `Counter.js` component on the web, inside the `index.js` file
+  ```js
+  ...
+  import Counter from './components/Counter'
+  ...
 
-server.get('/', (req, res) => {
-    const title = 'Server side Rendering'
-    const sheet = new ServerStyleSheet()
-
-    axios.get(serverUrl)
-    .then(response => {
-        const { length } = response.data
-        const characterWithRandom = response.data.map((character) => {
-            return {...character, random: Math.floor(Math.random() * length)}
-        })
-        const initialState = { characters: characterWithRandom }
-        const body = renderToString(sheet.collectStyles(App(initialState)))
-        const styles = sheet.getStyleTags()
-        res.send(Html({
-            body,
-            styles,
-            title,
-            initialState: JSON.stringify(initialState)
-        }))
-    })
-    .catch(error => {
-        throw new Error(error)
-    })
-})
-
-server.listen(server.get('port'), () => {
-    console.log('Node server is running on port', server.get('port'))
-})
-
-```
-
-
-`/src/pages/Home/Home.js`
-
-```js
-const Home = props => {
-    return (
-        <Board characters={props.characters} />
-    )
-}
-```
-
-`/src/containers/Board/Board`
-
-```js
-componentDidMount() {
-    console.log('componentDidMount')
-}
-...
-const { characterMain, characters } = this.props
-```
-> Remove unused dependencies and variables
-
-`/src/pages/HTML.js`
-
-```js
-const Html = ({ body, styles, title, initialState }) => `
-...
-<script>window.__APP_INITIAL_STATE__ = ${initialState}</script>
-
-```
-`/src/index.js`
-
-```js
-hydrate(
-    <Home {...window.__APP_INITIAL_STATE__} />,
+  hydrate(
+    <Counter />,
     document.getElementById('root')
-)
+  )
+  ```
+3. Test on web `run start`
 
-```
+4. Create `Counter.test.js` inside the `src/test` folder http://airbnb.io/enzyme/docs/api/
+  ```js
+  import React from 'react'
+  import Counter from '../components/counter'
+
+  import { shallow, mount, render } from 'enzyme'
+
+  describe('Counter component', () => {
+    it('Start with a count of 0', () => {
+      const wrapper = shallow(<Counter />)
+
+      const countState = wrapper.state().count
+      expect(countState).toEqual(0)
+    })
+  });
+    ```
+
+5. Modify `package.json`
+  ```js
+    ...
+    "jest": jest --verbose --watch
+    ...
+  ```
+6. `Counter.test.js` User way http://airbnb.io/enzyme/docs/api/shallow.html
+  ```js
+  import React from 'react'
+  import Counter from '../components/counter'
+
+  import { shallow, mount } from 'enzyme'
+
+  describe('Counter component', () => {
+    it('Start with a count of 0', () => {
+      const wrapper = shallow(<Counter />)
+      const text = wrapper.find('p').text()
+      expect(text).toEqual('Current count: 0')
+    })
+  });
+    ```
+7. `Counter.test.js` Simulate function http://airbnb.io/enzyme/docs/api/ShallowWrapper/simulate.html
+  ```js
+  it('Can increment the count when the button is clicked', () => {
+    const wrapper = shallow(<Counter />)
+    const incrementBtn = wrapper.find('button')
+    incrementBtn.simulate('click')
+    const text = wrapper.find('p').text()
+    expect(text).toEqual('Current count: 0')
+  })
+    ```
+    ```js
+      ✕ Can increment the count when the button is clicked
+    ```
+    ```js
+      ...
+      expect(text).toEqual('Current count: 1')
+      ...
+    ```
+
+8. Decrement exercise
+9. Refactor the `Counter.js` file
+  ```js
+  makeIncrement = amount => () => {
+    this.setState({
+        count: this.state.count + amount
+    });
+  }
+  ```
+
+# Test react component (Snapshot)
+
+1. Add the dependecy https://facebook.github.io/jest/docs/en/snapshot-testing.html
+  ```js
+    npm install --save-dev react-test-renderer
+  ```
+
+2. Create an snapshot test
+  ```js
+    it('Matches the snapshot', () => {
+      const tree = renderer.create(<Counter />).toJSON()
+
+      expect(tree).toMatchSnapshot()
+    })
+  ```
+
+3. Look the snapshot file created in `src/test/__snapshots__`
+
+4.  Modify the `Counter.js` file
+  ```js
+    ...
+      <p>Current 2 count: {this.state.count}</p>
+    ...
+  ```
+What happen in the console ?
+
+
+# Test react component
+
+1. Create a component `CounterList.js` component
+  ```js
+  import React, { Component } from 'react'
+
+  import Counter from './Counter';
+
+  const createRange = num => Array.from(Array(num).keys());
+
+  export class CounterList extends Component {
+
+      state = {
+          numCounter: 2
+      }
+
+      addCounter = () => {
+          this.setState( prevState => {
+              return {
+                  numCounter: prevState.numCounter + 1
+              }
+          })
+      }
+
+      renderCounter = (index) => {
+          return (
+              <li key={index}>
+                  <Counter />
+              </li>
+          )
+      }
+
+      render() {
+          const countersArray = createRange(this.state.numCounter);
+
+          return (
+          <div>
+              <button onClick={this.addCounter}>Add counter</button>
+              <ul>
+                  {countersArray.map(num => this.renderCounter(num))}
+              </ul>
+          </div>
+          )
+      }
+  }
+
+  export default CounterList
+  ```
+2. Remove the `position: absolute` properties on the `src/index.js`
+
+3. Test on the browser `run start`
+
+4. Create the `CounterList.test.js` inside the `src/test` folder
+  ```js
+  import React from 'react'
+  import CounterList from '../components/CounterList';
+  import { shallow, mount } from 'enzyme';
+
+  describe('CounterList component', () => {
+    it ('Test', () =>{
+      const shallowWrapper = shallow(<CounterList />)
+      const mountWrapper = mount(<CounterList />)
+
+      console.log(shallowWrapper.debug());
+      console.log(mountWrapper.debug());
+    })
+  });
+  ```
+What happen on the console ?
+
+5. Render two counters by default
+
+  ```js
+  ...
+  it('Should render two counters by default', () => {
+    const wrapper = shallow(<CounterList/>);
+    const counters = wrapper.find('Counter');
+
+    expect(counters.length).toEqual(2);
+  })
+  ...
+  ```
+
+6. Add a new counter
+
+  ```js
+  ...
+    it('Can add more counters by clicking the button', () => {
+      const wrapper = shallow(<CounterList/>);
+      const btn = wrapper.find('button');
+      btn.simulate('click');
+
+      const counters = wrapper.find('Counter');
+
+      expect(counters.length).toEqual(3);
+    })
+  ...
+  ```
+
+# Last but not least
+
+* https://gist.github.com/fokusferit/e4558d384e4e9cab95d04e5f35d4f913
+* https://github.com/jsdom/jsdom
