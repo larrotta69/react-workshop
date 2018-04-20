@@ -24,11 +24,7 @@ run this commands on the terminal
 
 ```js
 npm install --save-dev jest
-<<<<<<< HEAD
 npm install --save-dev enzyme
-=======
-npm install --save-dev enzime
->>>>>>> b584df1fda405043b2eab7f1c2ad143c76ac0dc3
 npm install --save-dev enzyme-adapter-react-16
 npm install --save-dev babel-jest
 ```
