@@ -5,8 +5,8 @@
 * Clone the repo `https://github.com/larrotta69/react-workshop/tree/first-session-start`
 
 * Go to `react-workshop` folder
-* Run `npm install`
-* Then `npm start`
+* Run `yarn install`
+* Then `yarn start`
 * Go to [localhost](http://localhost:3000/)
 
 ## First round
@@ -22,27 +22,21 @@
 
 `/pages/Home.js`
 
-```js
-const Home = () => {
-    return (
-        <Board characterMain="Homer Simpson"/>
-    )
-}
+```jsx
+import Board from '../containers/Board'
+
+const Home = () => <Board characterMain="Homer Simpson"/>
 ```
 
 ##### Props:
 
 `/containers/Board.js`
 
-```js
-const Board = (props) => {
-    const { characterMain } = props
-    return (
-        <div>
-            <h1>{characterMain}</h1>
-        </div>
-    )
-}
+```jsx
+const Board = ({characterMain}) =>
+    <div>
+        <h1>{characterMain}</h1>
+    </div>
 
 Board.propTypes = {
     characterMain: PropTypes.string
@@ -52,8 +46,10 @@ Board.propTypes = {
 > Try a different data type as props: `<Board characterMain={['Homer', 'Simpson']}/>`
 
 #### Adding Background component
+
+
 ```js
-<Background/>
+<Background />
 <h1>{characterMain}</h1>
 ```
 ## Second round
@@ -74,21 +70,19 @@ Board.propTypes = {
 
 `/containers/Board.js`
 
-```js
+```jsx
 class Board extends React.Component {
     state = {
         characters: ['Marge', 'Bart', 'Lisa']
     }
     render(){
-        const { characterMain } = this.props
-        const { characters } = this.state
-        return (
-            <div>
-                <Background />
-                <h1>{characterMain}</h1>
-                {characters.map(character => <div key={`char-${character}`}>{character}</div>)}
-            </div>
-        )
+	    const { characterMain } = this.props
+	    const { characters } = this.state
+	    return <div>
+	        <Background />
+	        <h1>{characterMain}</h1>
+	        {characters.map(character => <div key={`char-${character}`}>{character}</div>)}
+	    </div>
     }
 }
 ```
@@ -99,10 +93,10 @@ class Board extends React.Component {
 ```
 ```js
 setNewCharacters = () => {
-        this.setState({
-            characters: ['Seymour', 'Willie', 'Moe', 'Ralph']
-        })
-    }
+	this.setState({
+		characters: ['Seymour', 'Willie', 'Moe', 'Ralph']
+	})
+}
 ```
 ##### Passing arguments:
 
@@ -112,11 +106,11 @@ setNewCharacters = () => {
 > Tip: currying
 
 ```js
-setNewCharacters = (data) => () => {
-        this.setState({
-            characters: data
-        })
-    }
+setNewCharacters = characters => () => {
+    this.setState({
+        characters
+    })
+}
 ```
 
 ## Third round
@@ -131,14 +125,11 @@ setNewCharacters = (data) => () => {
 
 `/components/Character.js` [file](https://github.com/larrotta69/react-workshop/blob/first-session/src/components/Character.js)
 
-```js
-const Character = (props) => {
-    const { src, name, posX, zIndex, isMain } = props
-    return (
-        <StyledCharacter posX={posX} zIndex={zIndex} isMain={isMain}>
-            <img src={src} alt={name}/>
-        </StyledCharacter>
-    )
+```jsx
+const Character = ({ src, name, posX, zIndex, isMain }) => {
+    return <StyledCharacter posX={posX} zIndex={zIndex} isMain={isMain}>
+        <img src={src} alt={name}/>
+    </StyledCharacter>
 }
 /*
     Character Styles
@@ -158,40 +149,43 @@ const StyledCharacter = styled.li`
 `/containers/Board.js`
 
 ```js
+state = {
+    characters: []
+}
+    
 componentDidMount() {
-        axios.get('https://simpsons-api.herokuapp.com/characters')
-        .then(response => {
-            this.setState({
-                characters: response.data
-            })
+    axios.get('https://simpsons-api.herokuapp.com/characters')
+    .then(response => {
+        const { length } = response.data
+        const characters = response.data.map(c => ({ ...c, random: Math.floor(Math.random() * length)}))
+        this.setState({
+            characters
         })
-        .catch(error => {
-            throw new Error(error)
-        })
-    }
+    })
+    .catch(error => {
+        throw new Error(error)
+    })
+}
 
-    render(){
-        const { characters } = this.state
-        const widthCharacter = characters && 93 / characters.length
-        return (
-            <div>
-                <Background />
-                <ul>
-                    {characters && characters.map(character => {
-                        const zIndex = characters && Math.floor(Math.random() * characters.length)
-                        const isMain = character.id === 0
-                        return <Character key={`char-${character.id}`}
-                            src={`https://simpsons-api.herokuapp.com/img/${character.image}`}
-                            posX={character.id * widthCharacter}
-                            zIndex={zIndex}
-                            isMain={isMain}
-                        />
-                    })}
-                </ul>
-            </div>
-        )
-
-    }
+render(){
+    const { characters } = this.state
+    const { length } = characters
+    const widthCharacter = characters && 93 / length
+    return <div>
+        <Background />
+        <ul>
+            {length && characters.map(character => {
+                const { id, image, random } = character
+                return <Character key={`char-${random}-${id}`}
+                    src={`https://simpsons-api.herokuapp.com/img/${image}`}
+                    posX={id * widthCharacter}
+                    zIndex={random}
+                    isMain={id === 0}
+                />
+            })}
+        </ul>
+    </div>
+}
 ```
 ##### Router:
 
@@ -201,15 +195,15 @@ componentDidMount() {
 import { Route, Switch, BrowserRouter as Router } from 'react-router-dom'
 ...
 
-const RouterApp = () => (
-    <Switch>
-        <Route exact path='/:name' component={Home} />
-    </Switch>
-)
+const RouterApp = () => <Switch>
+    <Route exact path='/' component={Home} />
+    <Route exact path='/:name' component={Home} />
+</Switch>
 
 ReactDOM.render(
     <Router>
         <RouterApp />
+        <GlobalStyle />
     </Router>,
     document.getElementById('root')
 )
@@ -218,8 +212,10 @@ ReactDOM.render(
 `/pages/Home.js`
 
 ```js
-const {params: {name}} = props.match
-<Board characterMain={name}/>
+const Home = props => {
+	const {params: {name}} = props.match
+	return <Board characterMain={name}/>
+}
 
 ```
 `/containers/Board.js`
