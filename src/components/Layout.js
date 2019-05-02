@@ -5,14 +5,11 @@ import styled from 'styled-components'
 import { colors } from '../theme/variables'
 import Header from './Header'
 
-const Layout = ({ children }) => {
-    return (
-        <StyledLayout>
-            <Header title="The Simpsons"/>
-            {children}
-        </StyledLayout>
-    )
-}
+const Layout = ({ children }) => <StyledLayout>
+    <Header title="The Simpsons"/>
+    {children}
+</StyledLayout>
+
 /*
     Layout Styles
 */

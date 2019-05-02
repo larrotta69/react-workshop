@@ -17,5 +17,4 @@ const StyledBackground = styled.div`
     transform: translateX(-50%);
     border-radius: 20%;
 `
-
 export default Background

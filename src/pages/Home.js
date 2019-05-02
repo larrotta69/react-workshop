@@ -8,10 +8,9 @@ import {withLayout} from '../HOC'
 
 const Home = (props) => {
     const {params: {name}} = props.match
-    return (
-        <Board characterMain={name}/>
-    )
+    return <Board characterMain={name} />
 }
+
 Home.propTypes = {
     match: PropTypes.object
 }

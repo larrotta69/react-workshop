@@ -2,13 +2,10 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import styled from 'styled-components'
 
-const Header = ({ title }) => {
-    return (
-        <StyledHeader>
-            <img src="/logo.png" alt={title}/>
-        </StyledHeader>
-    )
-}
+const Header = ({ title }) => <StyledHeader>
+    <img src="/logo.png" alt={title}/>
+</StyledHeader>
+
 /*
     Header Styles
 */

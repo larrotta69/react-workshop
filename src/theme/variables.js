@@ -6,7 +6,7 @@ export const colors = {
     mainBrown: '#6f3b13'
 }
 
-export const sizes ={
+export const sizes = {
     mobile: '768px',
     tablet: '992px',
     desktop: '1200',
