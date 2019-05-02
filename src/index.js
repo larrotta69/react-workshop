@@ -2,12 +2,12 @@ import React from 'react'
 import ReactDOM from 'react-dom'
 import { Route, Switch, BrowserRouter as Router } from 'react-router-dom'
 
-import { injectGlobal } from 'styled-components'
+import { createGlobalStyle } from 'styled-components'
 import styledNormalize from 'styled-normalize'
 
 import Home from './pages/Home'
 
-(() => injectGlobal`
+const GlobalStyle = createGlobalStyle`
     ${styledNormalize}
     ul, ol {
         list-style: none;
@@ -22,7 +22,7 @@ import Home from './pages/Home'
         box-sizing: border-box;
     }
 
-`)()
+`
 
 const RouterApp = () => (
     <Switch>
@@ -32,6 +32,7 @@ const RouterApp = () => (
 
 ReactDOM.render(
     <Router>
+        <GlobalStyle />
         <RouterApp />
     </Router>,
     document.getElementById('root')
