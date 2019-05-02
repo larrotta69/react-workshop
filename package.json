@@ -3,16 +3,16 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
-    "axios": "^0.17.1",
-    "prop-types": "^15.6.0",
-    "react": "^16.2.0",
-    "react-dom": "^16.2.0",
-    "react-router-dom": "^4.2.2",
-    "react-scripts": "1.1.0",
-    "recompose": "^0.26.0",
-    "styled-components": "^3.1.6",
-    "styled-media-query": "^2.0.1",
-    "styled-normalize": "^3.0.1"
+    "axios": "^0.18.0",
+    "prop-types": "^15.7.0",
+    "react": "^16.8.0",
+    "react-dom": "^16.8.0",
+    "react-router-dom": "^5.0.0",
+    "react-scripts": "2.1.0",
+    "recompose": "^0.30.0",
+    "styled-components": "^4.2.0",
+    "styled-media-query": "^2.1.0",
+    "styled-normalize": "^8.0.0"
   },
   "scripts": {
     "start": "react-scripts start",
@@ -23,8 +23,8 @@
   "description": "React Workshop",
   "main": "index.js",
   "devDependencies": {
-    "babel-eslint": "^8.2.2",
-    "eslint": "^4.17.0"
+    "babel-eslint": "^9.0.0",
+    "eslint": "5.6.0"
   },
   "repository": {
     "type": "git",
@@ -36,5 +36,17 @@
   "bugs": {
     "url": "https://github.com/larrotta69/react-workshop/issues"
   },
-  "homepage": "https://github.com/larrotta69/react-workshop#readme"
+  "homepage": "https://github.com/larrotta69/react-workshop#readme",
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
+  }
 }

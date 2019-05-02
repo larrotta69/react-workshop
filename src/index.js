@@ -1,12 +1,12 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
 
-import { injectGlobal } from 'styled-components'
+import { createGlobalStyle } from 'styled-components'
 import styledNormalize from 'styled-normalize'
 
 import Home from './pages/Home'
 
-(() => injectGlobal`
+const GlobalStyle = createGlobalStyle`
     ${styledNormalize}
     ul, ol {
         list-style: none;
@@ -23,10 +23,12 @@ import Home from './pages/Home'
         font-family: 'Roboto';
         box-sizing: border-box;
     }
-`)()
-
+`
 
 ReactDOM.render(
-    <Home/>,
+    <>
+        <Home/>
+        <GlobalStyle/>
+    </>,
     document.getElementById('root')
 )
